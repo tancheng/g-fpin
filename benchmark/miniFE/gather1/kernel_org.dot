@@ -1,0 +1,30 @@
+digraph "DFG for'kernel' function" {
+	Node0phi[shape=record, label="(0) phi"];
+	Node1load[shape=record, label="(1) load"];
+	Node2getelementptr[shape=record, label="(2) getelementptr"];
+	Node3load[shape=record, label="(3) load"];
+	Node4sub[shape=record, label="(4) sub"];
+	Node5mul[shape=record, label="(5) mul"];
+	Node6store[shape=record, label="(6) store"];
+	Node7load[shape=record, label="(7) load"];
+	Node8add[shape=record, label="(8) add"];
+	Node9store[shape=record, label="(9) store"];
+	Node10add[shape=record, label="(10) add"];
+	Node11icmp[shape=record, label="(11) icmp"];
+	Node12br[shape=record, label="(12) br"];
+edge [color=red]
+	Node10add -> Node0phi
+	Node0phi -> Node2getelementptr
+	Node2getelementptr -> Node3load
+	Node3load -> Node4sub
+	Node1load -> Node4sub
+	Node4sub -> Node5mul
+	Node5mul -> Node6store
+	Node2getelementptr -> Node6store
+	Node7load -> Node8add
+	Node5mul -> Node8add
+	Node8add -> Node9store
+	Node0phi -> Node10add
+	Node10add -> Node11icmp
+	Node11icmp -> Node12br
+}

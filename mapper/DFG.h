@@ -32,6 +32,7 @@ class DFG {
     int m_num;
     list<DFGNode*>* m_orderedNodes;
     list<Loop*>* m_targetLoops;
+    bool m_tuneForLoop;
 
     //edges of data flow
     list<DFGEdge*> m_DFGEdges;

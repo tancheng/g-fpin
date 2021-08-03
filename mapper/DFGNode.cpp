@@ -180,8 +180,10 @@ string DFGNode::getOpcodeName() {
   return m_opcodeName;
 }
 
-string DFGNode::getOpcodeForDot() {
-  if(m_opcodeName.compare("load") == 0) {
+string DFGNode::getOpcodeForDot(bool t_tuneForLoop) {
+  if (!t_tuneForLoop)
+    return m_opcodeName;
+  if (m_opcodeName.compare("load") == 0) {
     return "SIN";
   } else if(m_opcodeName.compare("store") == 0) {
     return "SOUT";

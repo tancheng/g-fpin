@@ -8,7 +8,6 @@
 build*/
 *.ll
 *.json
-*.dot
 *.bc
 *.DS_Store
 *.swp

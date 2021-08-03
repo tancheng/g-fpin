@@ -15,6 +15,7 @@ DFG::DFG(Function& t_F, list<Loop*>* t_loops, bool t_heterogeneity) {
   m_num = 0;
   m_targetLoops = t_loops;
   m_orderedNodes = NULL;
+  m_tuneForLoop = false;
   construct(t_F);
 //  tuneForBranch();
   tuneForBitcast();
@@ -534,7 +535,7 @@ void DFG::generateDot(Function &t_F, bool t_isTrimmedDemo) {
   for (DFGNode* node: nodes) {
 //    if (dyn_cast<Instruction>((*node)->getInst())) {
     if (t_isTrimmedDemo) {
-      file << "\tNode" << node->getID() << node->getOpcodeForDot() << "[shape=record, label=\"" << "(" << node->getID() << ") " << node->getOpcodeForDot() << "\"];\n";
+      file << "\tNode" << node->getID() << node->getOpcodeForDot(m_tuneForLoop) << "[shape=record, label=\"" << "(" << node->getID() << ") " << node->getOpcodeForDot(m_tuneForLoop) << "\"];\n";
     } else {
       file << "\tNode" << node->getInst() << "[shape=record, label=\"" <<
           changeIns2Str(node->getInst()) << "\"];\n";
@@ -563,7 +564,7 @@ void DFG::generateDot(Function &t_F, bool t_isTrimmedDemo) {
   file << "edge [color=red]" << "\n";
   for (DFGEdge* edge: m_DFGEdges) {
     if (t_isTrimmedDemo) {
-      file << "\tNode" << edge->getSrc()->getID() << edge->getSrc()->getOpcodeForDot() << " -> Node" << edge->getDst()->getID() << edge->getDst()->getOpcodeForDot() << "\n";
+      file << "\tNode" << edge->getSrc()->getID() << edge->getSrc()->getOpcodeForDot(m_tuneForLoop) << " -> Node" << edge->getDst()->getID() << edge->getDst()->getOpcodeForDot(m_tuneForLoop) << "\n";
     } else {
       file << "\tNode" << edge->getSrc()->getInst() << " -> Node" << edge->getDst()->getInst() << "\n";
     }
@@ -910,6 +911,7 @@ void DFG::trimForStandalone() {
 }
 
 void DFG::tuneForLoop() {
+  m_tuneForLoop = true;
   DFGNode* loopRoot = NULL;
   for (DFGNode* dfgNode: nodes) {
     if (dfgNode->isPhi()) {

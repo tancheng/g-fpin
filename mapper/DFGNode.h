@@ -74,7 +74,7 @@ class DFGNode {
     Instruction* getInst();
     StringRef getStringRef();
     string getOpcodeName();
-    string getOpcodeForDot();
+    string getOpcodeForDot(bool);
     list<DFGNode*>* getPredNodes();
     list<DFGNode*>* getSuccNodes();
     bool isSuccessorOf(DFGNode*);
