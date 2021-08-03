@@ -16,7 +16,7 @@ DFG::DFG(Function& t_F, list<Loop*>* t_loops, bool t_heterogeneity) {
   m_targetLoops = t_loops;
   m_orderedNodes = NULL;
   construct(t_F);
-  tuneForBranch();
+//  tuneForBranch();
   tuneForBitcast();
   tuneForLoad();
   if (t_heterogeneity) {
@@ -36,6 +36,7 @@ DFG::DFG(Function& t_F, list<Loop*>* t_loops, bool t_heterogeneity) {
 //    combine("xor", "add");
 //    tuneForPattern();
   }
+  tuneForLoop();
   trimForStandalone();
 }
 
@@ -533,7 +534,7 @@ void DFG::generateDot(Function &t_F, bool t_isTrimmedDemo) {
   for (DFGNode* node: nodes) {
 //    if (dyn_cast<Instruction>((*node)->getInst())) {
     if (t_isTrimmedDemo) {
-      file << "\tNode" << node->getID() << node->getOpcodeName() << "[shape=record, label=\"" << "(" << node->getID() << ") " << node->getOpcodeName() << "\"];\n";
+      file << "\tNode" << node->getID() << node->getOpcodeForDot() << "[shape=record, label=\"" << "(" << node->getID() << ") " << node->getOpcodeForDot() << "\"];\n";
     } else {
       file << "\tNode" << node->getInst() << "[shape=record, label=\"" <<
           changeIns2Str(node->getInst()) << "\"];\n";
@@ -562,7 +563,7 @@ void DFG::generateDot(Function &t_F, bool t_isTrimmedDemo) {
   file << "edge [color=red]" << "\n";
   for (DFGEdge* edge: m_DFGEdges) {
     if (t_isTrimmedDemo) {
-      file << "\tNode" << edge->getSrc()->getID() << edge->getSrc()->getOpcodeName() << " -> Node" << edge->getDst()->getID() << edge->getDst()->getOpcodeName() << "\n";
+      file << "\tNode" << edge->getSrc()->getID() << edge->getSrc()->getOpcodeForDot() << " -> Node" << edge->getDst()->getID() << edge->getDst()->getOpcodeForDot() << "\n";
     } else {
       file << "\tNode" << edge->getSrc()->getInst() << " -> Node" << edge->getDst()->getInst() << "\n";
     }
@@ -906,6 +907,62 @@ void DFG::trimForStandalone() {
 
   for (DFGNode* dfgNode: removeNodes)
     nodes.remove(dfgNode);
+}
+
+void DFG::tuneForLoop() {
+  DFGNode* loopRoot = NULL;
+  for (DFGNode* dfgNode: nodes) {
+    if (dfgNode->isPhi()) {
+      for (DFGNode* succNode: *(dfgNode->getSuccNodes())) {
+        if (succNode->isAdd()) {
+          list<DFGNode*>* my_list = succNode->getSuccNodes();
+          if (find(my_list->begin(), my_list->end(), dfgNode) != my_list->end()) {
+            for (DFGNode* succSuccNode: *(succNode->getSuccNodes())) {
+              if (succSuccNode->isCmp()) {
+
+                loopRoot = dfgNode;
+                loopRoot->setDotName("Iter");
+                list<DFGNode*>* visited = new list<DFGNode*>();
+                visited->push_back(dfgNode);
+                nodes.remove(succNode);
+                visited->push_back(succNode);
+                deleteDFGEdge(succNode, loopRoot);
+                deleteDFGEdge(loopRoot, succNode);
+                eliminateFrom(succNode, visited);
+                return;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+void DFG::eliminateFrom(DFGNode* t_root, list<DFGNode*>* visited) {
+  for (DFGNode* succNode: *(t_root->getSuccNodes())) {
+    if (!(find(visited->begin(), visited->end(), succNode) != visited->end())) {
+
+      nodes.remove(succNode);
+      visited->push_back(succNode);
+      deleteDFGEdge(succNode, t_root);
+      deleteDFGEdge(t_root, succNode);
+      eliminateFrom(succNode, visited);
+      
+    }
+  }
+  for (DFGNode* predNode: *(t_root->getPredNodes())) {
+    if (!(find(visited->begin(), visited->end(), predNode) != visited->end())) {
+
+      nodes.remove(predNode);
+      visited->push_back(predNode);
+      deleteDFGEdge(predNode, t_root);
+      deleteDFGEdge(t_root, predNode);
+      eliminateFrom(predNode, visited);
+      
+    }
+  }
+
 }
 
 bool DFG::searchDFS(DFGNode* t_target, DFGNode* t_head,

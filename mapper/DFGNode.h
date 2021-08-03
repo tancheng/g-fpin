@@ -46,6 +46,7 @@ class DFGNode {
     bool m_combined;
     bool m_isPatternRoot;
     bool m_critical;
+    string m_dotName;
     DFGNode* m_patternRoot;
     void setPatternRoot(DFGNode*);
 
@@ -73,6 +74,7 @@ class DFGNode {
     Instruction* getInst();
     StringRef getStringRef();
     string getOpcodeName();
+    string getOpcodeForDot();
     list<DFGNode*>* getPredNodes();
     list<DFGNode*>* getSuccNodes();
     bool isSuccessorOf(DFGNode*);
@@ -92,6 +94,8 @@ class DFGNode {
     list<DFGNode*>* getPatternNodes();
     void setCritical();
     bool isCritical();
+    void setDotName(string);
+    string getDotName();
 };
 
 #endif

@@ -17,6 +17,7 @@ DFGNode::DFGNode(int t_id, Instruction* t_inst, StringRef t_stringRef) {
   m_predNodes = NULL;
   m_succNodes = NULL;
   m_opcodeName = t_inst->getOpcodeName();
+  m_dotName = m_opcodeName;
   m_isMapped = false;
   m_numConst = 0;
   m_optType = "";
@@ -35,6 +36,14 @@ int DFGNode::getID() {
 void DFGNode::setID(int t_id) {
   m_id = t_id;
 }
+
+void DFGNode::setDotName(string t_name) {
+  m_dotName = t_name;
+}
+
+string DFGNode::getDotName() {
+  return m_dotName;
+} 
 
 void DFGNode::setCritical() {
   m_critical = true;
@@ -169,6 +178,17 @@ bool DFGNode::isPatternRoot() {
 
 string DFGNode::getOpcodeName() {
   return m_opcodeName;
+}
+
+string DFGNode::getOpcodeForDot() {
+  if(m_opcodeName.compare("load") == 0) {
+    return "SIN";
+  } else if(m_opcodeName.compare("store") == 0) {
+    return "SOUT";
+  } else if(m_opcodeName.compare("getelementptr") == 0) {
+    return "RFs";
+  }
+  return getDotName();
 }
 
 string DFGNode::getFuType() {

@@ -64,6 +64,8 @@ class DFG {
     void eliminateOpcode(string);
     bool searchDFS(DFGNode*, DFGNode*, list<DFGNode*>*);
     void connectDFGNodes();
+    void eliminateFrom(DFGNode*, list<DFGNode*>*);
+    void tuneForLoop();
 
   public:
     DFG(Function&, list<Loop*>*, bool);
