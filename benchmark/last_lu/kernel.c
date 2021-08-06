@@ -2,11 +2,13 @@
 #include <math.h>
 
 double m;
-int nx0, ny0, nz0;
+int* nx;
+int* ny;
+int* nz;
 
 void kernel() {
-  for(int i=1; <=5; ++i) {
-    m = sqrt( m / (double(nx0-2) * double(ny0-2) * double(nz0-2)) );
+  for(int i=1; i<=5; ++i) {
+    m = sqrt( m / ((double)(nx[i]-2) * (double)(ny[i]-2) * (double)(nz[i]-2)) );
   }
 }
 
