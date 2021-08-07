@@ -8,6 +8,9 @@ digraph "DFG for'kernel' function" {
 	Node6add[shape=record, label="(6) add"];
 	Node7icmp[shape=record, label="(7) icmp"];
 	Node8br[shape=record, label="(8) br"];
+edge [color=blue]
+	Node8br -> Node0phi
+	Node8br -> Node1phi
 edge [color=red]
 	Node4add -> Node0phi
 	Node6add -> Node1phi

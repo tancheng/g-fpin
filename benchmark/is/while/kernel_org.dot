@@ -9,6 +9,8 @@ digraph "DFG for'kernel' function" {
 	Node7sext[shape=record, label="(7) sext"];
 	Node8icmp[shape=record, label="(8) icmp"];
 	Node9br[shape=record, label="(9) br"];
+edge [color=blue]
+	Node9br -> Node0phi
 edge [color=red]
 	Node5add -> Node0phi
 	Node0phi -> Node1getelementptr

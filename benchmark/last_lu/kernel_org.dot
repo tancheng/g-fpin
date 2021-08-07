@@ -22,6 +22,7 @@ digraph "DFG for'kernel' function" {
 	Node20br[shape=record, label="(20) br"];
 edge [color=blue]
 	Node20br -> Node0phi
+	Node20br -> Node1phi
 edge [color=red]
 	Node18add -> Node0phi
 	Node17call -> Node1phi

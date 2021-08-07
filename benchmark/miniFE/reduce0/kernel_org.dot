@@ -15,16 +15,27 @@ digraph "DFG for'kernel' function" {
 	Node16phi[shape=record, label="(16) phi"];
 	Node17icmp[shape=record, label="(17) icmp"];
 	Node18br[shape=record, label="(18) br"];
-	Node19trunc[shape=record, label="(19) trunc"];
-	Node20store[shape=record, label="(20) store"];
-	Node22phi[shape=record, label="(22) phi"];
-	Node23add[shape=record, label="(23) add"];
-	Node24icmp[shape=record, label="(24) icmp"];
-	Node25br[shape=record, label="(25) br"];
+	Node19phi[shape=record, label="(19) phi"];
+	Node20add[shape=record, label="(20) add"];
+	Node21icmp[shape=record, label="(21) icmp"];
+	Node22br[shape=record, label="(22) br"];
+	Node23trunc[shape=record, label="(23) trunc"];
+	Node24store[shape=record, label="(24) store"];
+edge [color=blue]
+	Node10br -> Node15phi
+	Node10br -> Node16phi
+	Node14br -> Node15phi
+	Node14br -> Node16phi
+	Node18br -> Node19phi
+	Node25br -> Node19phi
+	Node22br -> Node0phi
+	Node22br -> Node1phi
+	Node22br -> Node2phi
+	Node22br -> Node3phi
 edge [color=red]
 	Node6add -> Node0phi
-	Node23add -> Node1phi
-	Node22phi -> Node2phi
+	Node20add -> Node1phi
+	Node19phi -> Node2phi
 	Node16phi -> Node3phi
 	Node1phi -> Node4getelementptr
 	Node4getelementptr -> Node5load
@@ -39,13 +50,13 @@ edge [color=red]
 	Node15phi -> Node17icmp
 	Node2phi -> Node17icmp
 	Node17icmp -> Node18br
-	Node1phi -> Node19trunc
-	Node19trunc -> Node20store
-	Node15phi -> Node22phi
-	Node2phi -> Node22phi
-	Node1phi -> Node23add
-	Node23add -> Node24icmp
-	Node24icmp -> Node25br
+	Node15phi -> Node19phi
+	Node2phi -> Node19phi
+	Node1phi -> Node20add
+	Node20add -> Node21icmp
+	Node21icmp -> Node22br
+	Node1phi -> Node23trunc
+	Node23trunc -> Node24store
 	Node5load -> Node9icmp
 	Node5load -> Node15phi
 	Node5load -> Node16phi

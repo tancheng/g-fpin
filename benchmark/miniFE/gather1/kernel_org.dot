@@ -12,6 +12,8 @@ digraph "DFG for'kernel' function" {
 	Node10add[shape=record, label="(10) add"];
 	Node11icmp[shape=record, label="(11) icmp"];
 	Node12br[shape=record, label="(12) br"];
+edge [color=blue]
+	Node12br -> Node0phi
 edge [color=red]
 	Node10add -> Node0phi
 	Node0phi -> Node2getelementptr

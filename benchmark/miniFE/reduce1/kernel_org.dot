@@ -18,6 +18,8 @@ digraph "DFG for'kernel' function" {
 	Node17add[shape=record, label="(17) add"];
 	Node18icmp[shape=record, label="(18) icmp"];
 	Node19br[shape=record, label="(19) br"];
+edge [color=blue]
+	Node19br -> Node0phi
 edge [color=red]
 	Node17add -> Node0phi
 	Node0phi -> Node1lshr

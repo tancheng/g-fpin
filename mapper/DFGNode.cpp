@@ -189,7 +189,10 @@ string DFGNode::getOpcodeForDot(bool t_tuneForLoop) {
     return "SOUT";
   } else if(m_opcodeName.compare("getelementptr") == 0) {
     return "RFs";
+  } else if(m_opcodeName.compare("phi") == 0 and m_dotName.compare("Iter") != 0) {
+    return "MASK";
   }
+
   return getDotName();
 }
 
