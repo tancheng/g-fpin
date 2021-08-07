@@ -21,7 +21,7 @@ DFG::DFG(Function& t_F, list<Loop*>* t_loops, bool t_heterogeneity) {
   tuneForBitcast();
   tuneForLoad();
 
-//  tuneForLoop();
+  tuneForLoop();
   trimForStandalone();
 }
 
@@ -535,15 +535,7 @@ void DFG::generateDot(Function &t_F, bool t_isTrimmedDemo) {
             file << "\tNode" << node->first << "[shape=record, label=\"" << node->second << "\"];\n";
   */
 
-  /*
-  //Dump control flow.
-  for (list<DFGEdge*>::iterator edge = m_ctrlEdges.begin(), edge_end = m_ctrlEdges.end(); edge != edge_end; ++edge) {
-    file << "\tNode" << (*edge)->getSrc()->getID() << "_" << (*edge)->getSrc()->getOpcodeName() << " -> Node" << (*edge)->getDst()->getID() << "_" << (*edge)->getDst()->getOpcodeName() << "\n";
-//    file << "\tNode" << (*edge)->getSrc()->getInst() << " -> Node" << (*edge)->getDst()->getInst() << "\n";
-  // file << "\tNode" << edge->first.first << " -> Node" << edge->second.first << "\n";
-  }
-  */
-
+/*
   //Dump control flow.
   file << "edge [color=blue]" << "\n";
   for (DFGEdge* edge: m_ctrlEdges) {
@@ -553,6 +545,7 @@ void DFG::generateDot(Function &t_F, bool t_isTrimmedDemo) {
       file << "\tNode" << edge->getSrc()->getInst() << " -> Node" << edge->getDst()->getInst() << "\n";
     }
   }
+*/
 
   //Dump data flow.
   file << "edge [color=red]" << "\n";

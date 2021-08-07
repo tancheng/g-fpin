@@ -1,0 +1,15 @@
+digraph "DFG for'kernel' function" {
+	Node0MASK[shape=record, label="(0) MASK"];
+	Node1Iter[shape=record, label="(1) Iter"];
+	Node2RFs[shape=record, label="(2) RFs"];
+	Node3SIN[shape=record, label="(3) SIN"];
+	Node4add[shape=record, label="(4) add"];
+	Node5SOUT[shape=record, label="(5) SOUT"];
+edge [color=red]
+	Node4add -> Node0MASK
+	Node1Iter -> Node2RFs
+	Node2RFs -> Node3SIN
+	Node0MASK -> Node4add
+	Node3SIN -> Node4add
+	Node4add -> Node5SOUT
+}
