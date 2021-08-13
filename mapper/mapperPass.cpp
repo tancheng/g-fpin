@@ -143,6 +143,11 @@ namespace {
       errs() << "[show opcode count]\n";
       dfg->showOpcodeDistribution();
 
+      // Show the count of different dot types (tuned DFG).
+      errs() << "==================================\n";
+      errs() << "[show dot type count]\n";
+      dfg->showDotTypeDistribution();
+
       // Generate the DFG dot file.
       errs() << "==================================\n";
       errs() << "[generate dot for DFG]\n";

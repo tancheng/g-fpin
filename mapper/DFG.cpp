@@ -628,6 +628,19 @@ void DFG::showOpcodeDistribution() {
   errs() << "DFG node count: "<<nodes.size()<<"; DFG edge count: "<<m_DFGEdges.size()<<"\n";
 }
 
+void DFG::showDotTypeDistribution() {
+
+  map<string, int> dotTypeMap;
+  for (DFGNode* node: nodes) {
+    dotTypeMap[node->getOpcodeForDot(m_tuneForLoop)] += 1;
+  }
+  for (map<string, int>::iterator dotItr=dotTypeMap.begin();
+      dotItr!=dotTypeMap.end(); ++dotItr) {
+    errs() << (*dotItr).first << " : " << (*dotItr).second << "\n";
+  }
+  errs() << "DFG dot type count: "<<nodes.size()<<"; DFG edge count: "<<m_DFGEdges.size()<<"\n";
+}
+
 int DFG::getID(DFGNode* t_node) {
   int index = 0;
   return t_node->getID();

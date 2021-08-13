@@ -82,6 +82,7 @@ class DFG {
     bool isLoad(DFGNode*);
     bool isStore(DFGNode*);
     void showOpcodeDistribution();
+    void showDotTypeDistribution();
     void generateDot(Function&, bool);
     void generateJSON();
 };
